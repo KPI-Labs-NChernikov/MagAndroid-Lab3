@@ -1,2 +1,2 @@
-﻿# MagAndroid-Lab2
+﻿# MagAndroid-Lab3
 
