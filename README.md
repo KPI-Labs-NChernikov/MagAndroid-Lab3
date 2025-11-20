@@ -1,0 +1,2 @@
+﻿# MagAndroid-Lab2
+
