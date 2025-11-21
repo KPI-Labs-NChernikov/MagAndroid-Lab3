@@ -45,6 +45,11 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     ) {
     }
 
+    override fun onDowngrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        onCreate(db)
+    }
+
     fun seed() {
         val classmates = arrayOf(
             Classmate(fullName ="Стельмашенко Максим Максимович"),
