@@ -8,7 +8,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.nikita_chernikov.lab3.databinding.ActivityClassmateListBinding
-import java.util.Date
 
 class ClassmateListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClassmateListBinding
@@ -29,10 +28,8 @@ class ClassmateListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-        //
-        val classmates = arrayListOf(
-            Classmate(1, "Черніков Нікіта Миколайович", Date()))
-        //
+        val sqliteManager = SQLiteManager.getInstance(this)
+        val classmates = sqliteManager.getClassmates()
 
         recyclerView.adapter = ClassmateListViewAdapter(classmates)
     }

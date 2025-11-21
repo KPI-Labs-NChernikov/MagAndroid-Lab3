@@ -2,6 +2,7 @@ package dev.nikita_chernikov.lab3
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +11,11 @@ import dev.nikita_chernikov.lab3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var sqliteManager: SQLiteManager
+
+    companion object {
+        private const val EXAMPLE_FULL_NAME : String = "Петренко Петро Петрович"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +28,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        sqliteManager = SQLiteManager.getInstance(this)
+        sqliteManager.seed()
+
         binding.btnShowAll.setOnClickListener {
             val startListActivityIntent = Intent(this, ClassmateListActivity::class.java)
             startActivity(startListActivityIntent)
@@ -29,6 +38,16 @@ class MainActivity : AppCompatActivity() {
         binding.btnCreate.setOnClickListener {
             val createClassmateActivityIntent = Intent(this, ClassmateCreateActivity::class.java)
             startActivity(createClassmateActivityIntent)
+        }
+        binding.btnChangeLastFullNameToPetrenkopp.setOnClickListener {
+            val lastClassmate = sqliteManager.getLastClassmate()
+            if (lastClassmate != null)
+            {
+                val previousFullName = lastClassmate.fullName
+                lastClassmate.fullName = EXAMPLE_FULL_NAME
+                sqliteManager.updateClassmate(lastClassmate)
+                Toast.makeText(this, "Ім'я одногрупника $previousFullName (id: ${lastClassmate.id}) було замінено успішно.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

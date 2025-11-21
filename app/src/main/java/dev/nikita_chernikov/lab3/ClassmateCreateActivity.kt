@@ -10,6 +10,7 @@ import dev.nikita_chernikov.lab3.databinding.ActivityClassmateCreateBinding
 
 class ClassmateCreateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClassmateCreateBinding
+    private lateinit var sqliteManager: SQLiteManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,8 @@ class ClassmateCreateActivity : AppCompatActivity() {
             insets
         }
 
+        sqliteManager = SQLiteManager.getInstance(this)
+
         binding.btnCreate.setOnClickListener {
             val name = binding.inputFullName.text.toString().trim()
 
@@ -29,6 +32,7 @@ class ClassmateCreateActivity : AppCompatActivity() {
                 binding.inputFullName.error = "Це поле обов'язкове."
             } else {
                 binding.inputFullName.error = null
+                sqliteManager.addClassmate(Classmate(fullName = name))
                 Toast.makeText(this, "Одногрупника було додано успішно.", Toast.LENGTH_SHORT).show()
                 finish()
             }
