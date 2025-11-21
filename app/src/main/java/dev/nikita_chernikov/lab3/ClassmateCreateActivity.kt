@@ -29,7 +29,7 @@ class ClassmateCreateActivity : AppCompatActivity() {
             var hasErrors = false
             val firstName = binding.inputFirstName.text.toString().trim()
             val lastName = binding.inputLastName.text.toString().trim()
-            val patronymic = binding.inputFirstName.text.toString().trim()
+            val patronymic = binding.inputPatronymic.text.toString().trim()
 
             if (firstName.isEmpty()) {
                 binding.inputFirstName.error = getString(R.string.field_required)
