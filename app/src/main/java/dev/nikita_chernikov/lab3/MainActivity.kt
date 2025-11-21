@@ -14,7 +14,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sqliteManager: SQLiteManager
 
     companion object {
-        private const val EXAMPLE_FULL_NAME : String = "Петренко Петро Петрович"
+        private const val EXAMPLE_LAST_NAME : String = "Петренко"
+        private const val EXAMPLE_FIRST_NAME : String = "Петро"
+        private const val EXAMPLE_PATRONYMIC : String = "Петрович"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,9 @@ class MainActivity : AppCompatActivity() {
             if (lastClassmate != null)
             {
                 val previousFullName = lastClassmate.fullName
-                lastClassmate.fullName = EXAMPLE_FULL_NAME
+                lastClassmate.firstName = EXAMPLE_FIRST_NAME
+                lastClassmate.lastName = EXAMPLE_LAST_NAME
+                lastClassmate.patronymic = EXAMPLE_PATRONYMIC
                 sqliteManager.updateClassmate(lastClassmate)
                 Toast.makeText(this, "Ім'я одногрупника $previousFullName (id: ${lastClassmate.id}) було замінено успішно.", Toast.LENGTH_SHORT).show()
             }

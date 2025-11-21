@@ -26,16 +26,36 @@ class ClassmateCreateActivity : AppCompatActivity() {
         sqliteManager = SQLiteManager.getInstance(this)
 
         binding.btnCreate.setOnClickListener {
-            val name = binding.inputFullName.text.toString().trim()
+            var hasErrors = false
+            val firstName = binding.inputFirstName.text.toString().trim()
+            val lastName = binding.inputLastName.text.toString().trim()
+            val patronymic = binding.inputFirstName.text.toString().trim()
 
-            if (name.isEmpty()) {
-                binding.inputFullName.error = "Це поле обов'язкове."
-            } else {
-                binding.inputFullName.error = null
-                sqliteManager.addClassmate(Classmate(fullName = name))
-                Toast.makeText(this, "Одногрупника було додано успішно.", Toast.LENGTH_SHORT).show()
-                finish()
+            if (firstName.isEmpty()) {
+                binding.inputFirstName.error = getString(R.string.field_required)
+                hasErrors = true
             }
+            else
+            {
+                binding.inputFirstName.error = null
+            }
+            if (lastName.isEmpty()) {
+                binding.inputLastName.error = getString(R.string.field_required)
+                hasErrors = true
+            }
+            else
+            {
+                binding.inputLastName.error = null
+            }
+
+            if (hasErrors)
+            {
+                return@setOnClickListener
+            }
+
+            sqliteManager.addClassmate(Classmate(firstName = firstName, lastName = lastName, patronymic = patronymic))
+            Toast.makeText(this, "Одногрупника було додано успішно.", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 }

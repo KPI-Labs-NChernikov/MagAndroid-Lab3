@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import androidx.core.database.getStringOrNull
 import java.util.Date
 import androidx.core.database.sqlite.transaction
 
@@ -11,12 +12,14 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     companion object
     {
         private const val DATABASE_NAME: String = "ClassmatesDB"
-        private const val DATABASE_VERSION: Int = 1
+        private const val DATABASE_VERSION: Int = 2
 
         private const val TABLE_NAME: String = "Classmates"
 
         private const val ID_FIELD: String = "Id"
-        private const val FULL_NAME_FIELD: String = "FullName"
+        private const val FIRST_NAME_FIELD: String = "FirstName"
+        private const val LAST_NAME_FIELD: String = "LastName"
+        private const val PATRONYMIC_FIELD: String = "PATRONYMIC"
         private const val CREATED_AT_FIELD: String = "CreatedAt"
 
         @Volatile
@@ -34,7 +37,9 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     override fun onCreate(db: SQLiteDatabase?) {
         db!!.execSQL ( """CREATE TABLE $TABLE_NAME (
             $ID_FIELD INTEGER PRIMARY KEY AUTOINCREMENT,
-            $FULL_NAME_FIELD TEXT NOT NULL,
+            $FIRST_NAME_FIELD TEXT NOT NULL,
+            $LAST_NAME_FIELD TEXT NOT NULL,
+            $PATRONYMIC_FIELD TEXT,
             $CREATED_AT_FIELD INTEGER NOT NULL)""".trimMargin())
     }
 
@@ -43,15 +48,17 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         oldVersion: Int,
         newVersion: Int
     ) {
+        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        onCreate(db)
     }
 
     fun seed() {
         val classmates = arrayOf(
-            Classmate(fullName ="Стельмашенко Максим Максимович"),
-            Classmate(fullName ="Філоненко Ігор Русланович"),
-            Classmate(fullName ="Черненко Олександр Євгенович"),
-            Classmate(fullName ="Черніков Нікіта Миколайович"),
-            Classmate(fullName ="Галятін Володимир Сергійович"))
+            Classmate(firstName ="Максим", lastName = "Стельмашенко", patronymic = "Максимович"),
+            Classmate(firstName = "Ігор", lastName = "Філоненко", patronymic = "Русланович"),
+            Classmate(firstName = "Олександр", lastName = "Черненко", patronymic = "Євгенович"),
+            Classmate(firstName = "Нікіта", lastName = "Черніков", patronymic = "Миколайович"),
+            Classmate(firstName = "Володимир", lastName = "Галятін", patronymic = "Сергійович"))
 
         val db = writableDatabase
         db.transaction {
@@ -60,7 +67,9 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
                 for (classmate in classmates) {
                     val values = ContentValues().apply {
-                        put(FULL_NAME_FIELD, classmate.fullName)
+                        put(FIRST_NAME_FIELD, classmate.firstName)
+                        put(LAST_NAME_FIELD, classmate.lastName)
+                        put(PATRONYMIC_FIELD, classmate.patronymic)
                         put(CREATED_AT_FIELD, classmate.createdAt.time)
                     }
 
@@ -75,7 +84,9 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     fun addClassmate(classmate: Classmate) {
         val values = ContentValues().apply {
-            put(FULL_NAME_FIELD, classmate.fullName)
+            put(FIRST_NAME_FIELD, classmate.firstName)
+            put(LAST_NAME_FIELD, classmate.lastName)
+            put(PATRONYMIC_FIELD, classmate.patronymic)
             put(CREATED_AT_FIELD, classmate.createdAt.time)
         }
 
@@ -97,9 +108,11 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.use {
             if (it.moveToFirst()) {
                 classmate = Classmate(
-                    it.getInt(0), // Id
-                    it.getString(1), // FullName
-                    Date(it.getLong(2)) // CreatedAt
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getStringOrNull(3),
+                    Date(cursor.getLong(4))
                 )
             }
         }
@@ -110,7 +123,9 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
     fun updateClassmate(classmate: Classmate)
     {
         val values = ContentValues().apply {
-            put(FULL_NAME_FIELD, classmate.fullName)
+            put(FIRST_NAME_FIELD, classmate.firstName)
+            put(LAST_NAME_FIELD, classmate.lastName)
+            put(PATRONYMIC_FIELD, classmate.patronymic)
         }
 
         val db = writableDatabase
@@ -133,7 +148,9 @@ class SQLiteManager( context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 val classmate = Classmate(
                     cursor.getInt(0),
                     cursor.getString(1),
-                    Date(cursor.getLong(2))
+                    cursor.getString(2),
+                    cursor.getStringOrNull(3),
+                    Date(cursor.getLong(4))
                 )
                 classmates.add(classmate)
             }

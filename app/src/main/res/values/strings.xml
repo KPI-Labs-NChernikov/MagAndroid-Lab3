@@ -8,6 +8,9 @@
     <string name="id_full_name_example">1. Петренко Петро Петрович</string>
     <string name="created_at_example">додано: 01.01.2025 00:00</string>
     <string name="add_classmate_text">Додати одногрупника</string>
-    <string name="enter_full_name_text">Введіть ПІБ</string>
+    <string name="enter_last_name_text">Введіть прізвище</string>
+    <string name="enter_first_name_text">Введіть ім\'я</string>
+    <string name="enter_patronymic_text">Введіть по-батькові</string>
     <string name="create">Створити</string>
+    <string name="field_required">Це поле обов\'язкове.</string>
 </resources>

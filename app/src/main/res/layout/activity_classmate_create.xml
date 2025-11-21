@@ -42,11 +42,36 @@
             android:layout_height="20dp"/>
 
         <EditText
-            android:id="@+id/input_full_name"
+            android:id="@+id/input_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="familyName,lastName"
             android:inputType="text"
-            android:hint="@string/enter_full_name_text"/>
+            android:hint="@string/enter_last_name_text"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <EditText
+            android:id="@+id/input_first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="givenName,firstName"
+            android:inputType="text"
+            android:hint="@string/enter_first_name_text"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
+
+        <EditText
+            android:id="@+id/input_patronymic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="patronymic,middleName"
+            android:inputType="text"
+            android:hint="@string/enter_patronymic_text"/>
 
         <Space
             android:layout_width="match_parent"
