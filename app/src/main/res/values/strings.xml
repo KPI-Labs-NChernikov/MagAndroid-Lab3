@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Lab3</string>
+    <string name="show_all">Показати всіх</string>
+    <string name="add">Додати</string>
+    <string name="change_last_full_name_to_petrenkopp">Змінити ПІБ останньому на Петренко П. П.</string>
+    <string name="id_full_name_text">%1$d. %2$s</string>
+    <string name="created_at_text">додано: %1$s</string>
+    <string name="id_full_name_example">1. Петренко Петро Петрович</string>
+    <string name="created_at_example">додано: 01.01.2025 00:00</string>
+    <string name="add_classmate_text">Додати одногрупника</string>
+    <string name="enter_full_name_text">Введіть ПІБ</string>
+    <string name="create">Створити</string>
 </resources>

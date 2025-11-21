@@ -1,20 +1,20 @@
 package dev.nikita_chernikov.lab3
 
-import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import dev.nikita_chernikov.lab3.databinding.ActivityMainBinding
+import dev.nikita_chernikov.lab3.databinding.ActivityClassmateCreateBinding
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class ClassmateCreateActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityClassmateCreateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityClassmateCreateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -22,13 +22,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btnShowAll.setOnClickListener {
-            val startListActivityIntent = Intent(this, ClassmateListActivity::class.java)
-            startActivity(startListActivityIntent)
-        }
         binding.btnCreate.setOnClickListener {
-            val createClassmateActivityIntent = Intent(this, ClassmateCreateActivity::class.java)
-            startActivity(createClassmateActivityIntent)
+            val name = binding.inputFullName.text.toString().trim()
+
+            if (name.isEmpty()) {
+                binding.inputFullName.error = "Це поле обов'язкове."
+            } else {
+                binding.inputFullName.error = null
+                Toast.makeText(this, "Одногрупника було додано успішно.", Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 }

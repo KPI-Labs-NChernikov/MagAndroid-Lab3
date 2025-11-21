@@ -20,6 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ClassmateListActivity">
+        </activity>
+        <activity
+            android:name=".ClassmateCreateActivity">
+        </activity>
     </application>
 
 </manifest>
